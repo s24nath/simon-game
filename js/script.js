@@ -27,7 +27,7 @@ const resetColors = () => {
   yellowButton.style.backgroundColor = "#919102";
 };
 
-const flashingColors = (colorNumber, currentColorIteration) => {
+const flashingColors = (colorNumber, autoFlashMode, currentColorIteration) => {
   /* 
     1 = GREEN
     2 = RED
@@ -50,7 +50,7 @@ const flashingColors = (colorNumber, currentColorIteration) => {
   }
   setTimeout(() => {
     resetColors();
-    userTurn(currentColorIteration);
+    if (autoFlashMode) userTurn(currentColorIteration);
   }, 300);
 };
 
@@ -69,13 +69,14 @@ const computerTurn = () => {
   colorOrdersByNum.push(generateRandomNumber);
   colorOrdersByNum.forEach((currentFlash, index) => {
     setTimeout(() => {
-      flashingColors(currentFlash, index);
+      flashingColors(currentFlash, true, index);
     }, 800 * (index + 1) + 300);
   });
 };
 
 const checkUserSelection = (selectedColor) => {
   if (selectionMode) {
+    flashingColors(selectedColor, false);
     if (selectedColor === colorOrdersByNum[tapCount]) {
       tapCount++;
       if (tapCount === colorOrdersByNum.length) {
